@@ -28,7 +28,6 @@ def login():
 def major_start():
     login()
     try:
-        driver.find_element_by_id("search").click()
         major1 = wait1.until(EC.presence_of_element_located((By.XPATH,
                                                              '//td[contains(text(), "' + str(
                                                                  major_entry1.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
@@ -54,7 +53,31 @@ def major_start():
         print(ec)
 
 
+def general_start():
+    try:
+        general1 = wait1.until(EC.presence_of_element_located((By.XPATH,
+                                                               '//td[contains(text(), "' + str(
+                                                                   general_entry1.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        general1.click()
 
+        general2 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            general_entry2.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        general2.click()
+
+        general3 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            general_entry3.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        general3.click()
+
+        general4 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            general_entry4.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        general4.click()
+
+        general5 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            general_entry5.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        general5.click()
+
+    except Exception as ec:
+        print(ec)
 
 
 dp = Tk()
@@ -73,7 +96,7 @@ pw_label.grid(row=2, column=0)
 pw_entry = Entry(main_frame)
 pw_entry.grid(row=2, column=1)
 
-start_button = Button(main_frame, text="시작", width=15, height=2, command=major_start)
+start_button = Button(main_frame, text="시작", width=15, height=2, command=general_start)
 start_button.grid(row=3, column=1)
 
 major_checkbox = Checkbutton(main_frame, text="전공")
