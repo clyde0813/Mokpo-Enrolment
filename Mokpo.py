@@ -25,7 +25,7 @@ def login():
     driver.find_element_by_class_name("btn_login").click()
 
 
-def start():
+def major_start():
     login()
     try:
         driver.find_element_by_id("search").click()
@@ -49,9 +49,12 @@ def start():
         major5 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
             major_entry5.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
         major5.click()
+
     except Exception as ec:
         print(ec)
-        pass
+
+
+
 
 
 dp = Tk()
@@ -70,11 +73,13 @@ pw_label.grid(row=2, column=0)
 pw_entry = Entry(main_frame)
 pw_entry.grid(row=2, column=1)
 
-start_button = Button(main_frame, text="시작", width=15, height=2, command=start)
+start_button = Button(main_frame, text="시작", width=15, height=2, command=major_start)
 start_button.grid(row=3, column=1)
 
-empty_label1 = Label(main_frame)
-empty_label1.grid(row=4)
+major_checkbox = Checkbutton(main_frame, text="전공")
+major_checkbox.grid(row=4, column=0, sticky=E)
+general_checkbox = Checkbutton(main_frame, text="교양")
+general_checkbox.grid(row=4, column=1, sticky=S)
 
 major_label1 = Label(main_frame, text="전공1")
 major_label1.grid(row=5, column=0)
