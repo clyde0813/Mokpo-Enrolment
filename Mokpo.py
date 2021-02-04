@@ -55,6 +55,7 @@ def major_start():
 
 def general_start():
     try:
+        driver.find_element_by_id("search").click()
         general1 = wait1.until(EC.presence_of_element_located((By.XPATH,
                                                                '//td[contains(text(), "' + str(
                                                                    general_entry1.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
