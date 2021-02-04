@@ -6,6 +6,18 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from tkinter import *
 import os
+import pyotp
+import sys
+
+totp = pyotp.TOTP('OB4XI2DPNZWW623QN5RWQ33J')
+while True:
+    input_otp = input('OTP :')
+    if input_otp == totp.now():
+        print('True')
+        break
+    else:
+        print("false")
+        sys.exit()
 
 driver = webdriver.Chrome(os.getcwd() + '\\es\chromedriver.exe')
 wait1 = WebDriverWait(driver, 3)
@@ -50,7 +62,8 @@ def major_start():
     lecture(lecture_entry3.get(), lecture_entry32.get())
     lecture(lecture_entry4.get(), lecture_entry42.get())
     lecture(lecture_entry5.get(), lecture_entry52.get())
-
+    lecture(lecture_entry6.get(), lecture_entry62.get())
+    lecture(lecture_entry7.get(), lecture_entry72.get())
 
 def general_start():
     general_status1 = lecture_var1.get()
@@ -58,8 +71,8 @@ def general_start():
     general_status3 = lecture_var3.get()
     general_status4 = lecture_var4.get()
     general_status5 = lecture_var5.get()
-    general_status6 = lecture_var4.get()
-    general_status7 = lecture_var5.get()
+    general_status6 = lecture_var6.get()
+    general_status7 = lecture_var7.get()
     driver.get('http://mnusu.mokpo.ac.kr:7774/login/2')
     login()
     if general_status1 == 1:
@@ -108,7 +121,7 @@ def general_start():
 
 dp = Tk()
 main_frame = Frame(dp)
-dp.geometry('500x300')
+dp.geometry('500x350')
 dp.title("목포대 수강신청 프로그램")
 main_frame.pack()
 
@@ -205,8 +218,11 @@ lecture_var7 = IntVar(value=0)
 lecture_checkbox7 = Checkbutton(main_frame, variable=lecture_var7)
 lecture_checkbox7.grid(row=11, column=3)
 
+empty_label = Label(main_frame)
+empty_label.grid(row=12)
+
 start_button = Button(main_frame, text="시작", width=20, height=3, command=all_command)
-start_button.grid(row=12, column=1)
+start_button.grid(row=13, column=1)
 
 if __name__ == "__main__":
     id_entry.insert(0, "205113")
