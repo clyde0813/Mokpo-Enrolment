@@ -20,62 +20,52 @@ url_open()
 
 
 def login():
-    wait1.until(EC.element_to_be_clickable((By.ID, "name"))).send_keys(id_entry.get())
-    wait1.until(EC.element_to_be_clickable((By.ID, "pwd"))).send_keys(pw_entry.get())
+    driver.find_element_by_id("name").send_keys(id_entry.get())
+    driver.find_element_by_id("pwd").send_keys(pw_entry.get())
     driver.find_element_by_class_name("btn_login").click()
 
 
+def lecture(a, b):
+    major = wait1.until(EC.presence_of_all_elements_located((By.XPATH,
+                                                             '//*[contains(text(), "' +
+                                                             a + '")]/following-sibling::td/a[@class="btn_ok"]')))
+    major[int(b) - 1].click()
+
+
+def all_command():
+    major_status = major_var.get()
+    general_status = general_var.get()
+    if major_status == 1:
+        major_start()
+    elif general_status == 1:
+        general_start()
+
+
 def major_start():
+    driver.get('http://mnusu.mokpo.ac.kr:7774/login/3')
     login()
     try:
-        major1 = wait1.until(EC.presence_of_element_located((By.XPATH,
-                                                             '//td[contains(text(), "' + str(
-                                                                 major_entry1.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        major1.click()
-
-        major2 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            major_entry2.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        major2.click()
-
-        major3 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            major_entry3.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        major3.click()
-
-        major4 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            major_entry4.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        major4.click()
-
-        major5 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            major_entry5.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        major5.click()
+        wait1.until(EC.presence_of_element_located((By.ID, "search"))).click()
+        lecture(lecture_entry1.get(), lecture_entry12.get())
+        lecture(lecture_entry2.get(), lecture_entry22.get())
+        lecture(lecture_entry3.get(), lecture_entry32.get())
+        lecture(lecture_entry4.get(), lecture_entry42.get())
+        lecture(lecture_entry5.get(), lecture_entry52.get())
 
     except Exception as ec:
         print(ec)
 
 
 def general_start():
+    driver.get('http://mnusu.mokpo.ac.kr:7774/login/2')
+    login()
     try:
-        driver.find_element_by_id("search").click()
-        general1 = wait1.until(EC.presence_of_element_located((By.XPATH,
-                                                               '//td[contains(text(), "' + str(
-                                                                   general_entry1.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        general1.click()
-
-        general2 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            general_entry2.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        general2.click()
-
-        general3 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            general_entry3.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        general3.click()
-
-        general4 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            general_entry4.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        general4.click()
-
-        general5 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
-            general_entry5.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
-        general5.click()
+        wait1.until(EC.presence_of_element_located((By.ID, "search"))).click()
+        lecture(lecture_entry1.get(), lecture_entry12.get())
+        lecture(lecture_entry2.get(), lecture_entry22.get())
+        lecture(lecture_entry3.get(), lecture_entry32.get())
+        lecture(lecture_entry4.get(), lecture_entry42.get())
+        lecture(lecture_entry5.get(), lecture_entry52.get())
 
     except Exception as ec:
         print(ec)
@@ -96,87 +86,70 @@ pw_label = Label(main_frame, text="비밀번호")
 pw_label.grid(row=2, column=0)
 pw_entry = Entry(main_frame)
 pw_entry.grid(row=2, column=1)
+major_var = IntVar(value=0)
+major_checkbox = Checkbutton(main_frame, text="전공", variable=major_var)
+major_checkbox.grid(row=1, column=2, sticky=W)
+general_var = IntVar(value=0)
+general_checkbox = Checkbutton(main_frame, text="교양", variable=general_var)
+general_checkbox.grid(row=2, column=2, sticky=W)
 
-start_button = Button(main_frame, text="시작", width=15, height=2, command=general_start)
+start_button = Button(main_frame, text="시작", width=15, height=2, command=all_command)
 start_button.grid(row=3, column=1)
 
-major_checkbox = Checkbutton(main_frame, text="전공")
-major_checkbox.grid(row=4, column=0, sticky=E)
-general_checkbox = Checkbutton(main_frame, text="교양")
-general_checkbox.grid(row=4, column=1, sticky=S)
+code_label = Label(main_frame, text="과목코드")
+code_label.grid(row=4, column=1)
+class_label = Label(main_frame, text="분반")
+class_label.grid(row=4, column=2)
 
-major_label1 = Label(main_frame, text="전공1")
-major_label1.grid(row=5, column=0)
-major_entry1 = Entry(main_frame)
-major_entry1.grid(row=5, column=1)
-major_button1 = Button(main_frame, text="신청")
-major_button1.grid(row=5, column=2)
+lecture_label1 = Label(main_frame, text="과목 1")
+lecture_label1.grid(row=5, column=0)
+lecture_entry1 = Entry(main_frame, width=17)
+lecture_entry1.grid(row=5, column=1)
+lecture_entry12 = Entry(main_frame, width=17)
+lecture_entry12.grid(row=5, column=2)
+lecture_var1 = IntVar(value=0)
+lecture_checkbox1 = Checkbutton(main_frame, variable=lecture_var1)
+lecture_checkbox1.grid(row=5, column=3)
 
-major_label2 = Label(main_frame, text="전공2")
-major_label2.grid(row=6, column=0)
-major_entry2 = Entry(main_frame)
-major_entry2.grid(row=6, column=1)
-major_button2 = Button(main_frame, text="신청")
-major_button2.grid(row=6, column=2)
+lecture_label2 = Label(main_frame, text="과목 2")
+lecture_label2.grid(row=6, column=0)
+lecture_entry2 = Entry(main_frame, width=17)
+lecture_entry2.grid(row=6, column=1)
+lecture_entry22 = Entry(main_frame, width=17)
+lecture_entry22.grid(row=6, column=2)
+lecture_var2 = IntVar(value=0)
+lecture_checkbox2 = Checkbutton(main_frame, variable=lecture_var2)
+lecture_checkbox2.grid(row=6, column=3)
 
-major_label3 = Label(main_frame, text="전공3")
-major_label3.grid(row=7, column=0)
-major_entry3 = Entry(main_frame)
-major_entry3.grid(row=7, column=1)
-major_button3 = Button(main_frame, text="신청")
-major_button3.grid(row=7, column=2)
+lecture_label3 = Label(main_frame, text="과목 3")
+lecture_label3.grid(row=7, column=0)
+lecture_entry3 = Entry(main_frame, width=17)
+lecture_entry3.grid(row=7, column=1)
+lecture_entry32 = Entry(main_frame, width=17)
+lecture_entry32.grid(row=7, column=2)
+lecture_var3 = IntVar(value=0)
+lecture_checkbox3 = Checkbutton(main_frame, variable=lecture_var3)
+lecture_checkbox3.grid(row=7, column=3)
 
-major_label4 = Label(main_frame, text="전공4")
-major_label4.grid(row=8, column=0)
-major_entry4 = Entry(main_frame)
-major_entry4.grid(row=8, column=1)
-major_button4 = Button(main_frame, text="신청")
-major_button4.grid(row=8, column=2)
+lecture_label4 = Label(main_frame, text="과목 4")
+lecture_label4.grid(row=8, column=0)
+lecture_entry4 = Entry(main_frame, width=17)
+lecture_entry4.grid(row=8, column=1)
+lecture_entry42 = Entry(main_frame, width=17)
+lecture_entry42.grid(row=8, column=2)
+lecture_var4 = IntVar(value=0)
+lecture_checkbox4 = Checkbutton(main_frame, variable=lecture_var4)
+lecture_checkbox4.grid(row=8, column=3)
 
-major_label5 = Label(main_frame, text="전공5")
-major_label5.grid(row=9, column=0)
-major_entry5 = Entry(main_frame)
-major_entry5.grid(row=9, column=1)
-major_button5 = Button(main_frame, text="신청")
-major_button5.grid(row=9, column=2)
-
-empty_label2 = Label(main_frame)
-empty_label2.grid(row=10)
-
-general_label1 = Label(main_frame, text="교양1")
-general_label1.grid(row=11, column=0)
-general_entry1 = Entry(main_frame)
-general_entry1.grid(row=11, column=1)
-general_button1 = Button(main_frame, text="신청")
-general_button1.grid(row=11, column=2)
-
-general_label2 = Label(main_frame, text="교양2")
-general_label2.grid(row=12, column=0)
-general_entry2 = Entry(main_frame)
-general_entry2.grid(row=12, column=1)
-general_button2 = Button(main_frame, text="신청")
-general_button2.grid(row=12, column=2)
-
-general_label3 = Label(main_frame, text="교양3")
-general_label3.grid(row=13, column=0)
-general_entry3 = Entry(main_frame)
-general_entry3.grid(row=13, column=1)
-general_button3 = Button(main_frame, text="신청")
-general_button3.grid(row=13, column=2)
-
-general_label4 = Label(main_frame, text="교양4")
-general_label4.grid(row=14, column=0)
-general_entry4 = Entry(main_frame)
-general_entry4.grid(row=14, column=1)
-general_button4 = Button(main_frame, text="신청")
-general_button4.grid(row=14, column=2)
-
-general_label5 = Label(main_frame, text="교양5")
-general_label5.grid(row=15, column=0)
-general_entry5 = Entry(main_frame)
-general_entry5.grid(row=15, column=1)
-general_button5 = Button(main_frame, text="신청")
-general_button5.grid(row=15, column=2)
+lecture_label5 = Label(main_frame, text="과목 5")
+lecture_label5.grid(row=9, column=0)
+lecture_entry5 = Entry(main_frame, width=17)
+lecture_entry5.grid(row=9, column=1)
+lecture_entry52 = Entry(main_frame, width=17)
+lecture_entry52.grid(row=9, column=2)
+lecture_var5 = IntVar(value=0)
+lecture_checkbox5 = Checkbutton(main_frame, variable=lecture_var5)
+lecture_checkbox5.grid(row=9, column=3)
 
 if __name__ == "__main__":
     id_entry.insert(0, "205113")
