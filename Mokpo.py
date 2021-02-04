@@ -8,16 +8,50 @@ from tkinter import *
 import os
 
 driver = webdriver.Chrome(os.getcwd() + '\\es\chromedriver.exe')
+wait1 = WebDriverWait(driver, 3)
 
 
 def url_open():
     url = 'http://mnusu.mokpo.ac.kr:7774'
     driver.get(url)
 
+
 url_open()
 
-def go():
-    pass
+
+def login():
+    wait1.until(EC.element_to_be_clickable((By.ID, "name"))).send_keys(id_entry.get())
+    wait1.until(EC.element_to_be_clickable((By.ID, "pwd"))).send_keys(pw_entry.get())
+    driver.find_element_by_class_name("btn_login").click()
+
+
+def start():
+    login()
+    try:
+        driver.find_element_by_id("search").click()
+        major1 = wait1.until(EC.presence_of_element_located((By.XPATH,
+                                                             '//td[contains(text(), "' + str(
+                                                                 major_entry1.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        major1.click()
+
+        major2 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            major_entry2.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        major2.click()
+
+        major3 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            major_entry3.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        major3.click()
+
+        major4 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            major_entry4.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        major4.click()
+
+        major5 = wait1.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "' + str(
+            major_entry5.get() + '")]/following-sibling::td/a[@class="btn_ok"]'))))
+        major5.click()
+    except Exception as ec:
+        print(ec)
+        pass
 
 
 dp = Tk()
@@ -36,7 +70,7 @@ pw_label.grid(row=2, column=0)
 pw_entry = Entry(main_frame)
 pw_entry.grid(row=2, column=1)
 
-start_button = Button(main_frame, text="시작", width=15, height=2)
+start_button = Button(main_frame, text="시작", width=15, height=2, command=start)
 start_button.grid(row=3, column=1)
 
 empty_label1 = Label(main_frame)
@@ -114,4 +148,9 @@ general_entry5 = Entry(main_frame)
 general_entry5.grid(row=15, column=1)
 general_button5 = Button(main_frame, text="신청")
 general_button5.grid(row=15, column=2)
+
+if __name__ == "__main__":
+    id_entry.insert(0, "205113")
+    pw_entry.insert(0, "990813")
+
 dp.mainloop()
