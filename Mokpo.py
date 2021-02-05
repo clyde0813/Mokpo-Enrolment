@@ -1,7 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.alert import Alert
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from tkinter import *
@@ -19,7 +17,7 @@ while True:
         print("false")
         sys.exit()
 
-driver = webdriver.Chrome(os.getcwd() + '\\es\chromedriver.exe')
+driver = webdriver.Chrome(os.getcwd() + '\es\chromedriver.exe')
 wait1 = WebDriverWait(driver, 3)
 
 
@@ -64,6 +62,7 @@ def major_start():
     lecture(lecture_entry5.get(), lecture_entry52.get())
     lecture(lecture_entry6.get(), lecture_entry62.get())
     lecture(lecture_entry7.get(), lecture_entry72.get())
+
 
 def general_start():
     general_status1 = lecture_var1.get()
@@ -223,9 +222,5 @@ empty_label.grid(row=12)
 
 start_button = Button(main_frame, text="시작", width=20, height=3, command=all_command)
 start_button.grid(row=13, column=1)
-
-if __name__ == "__main__":
-    id_entry.insert(0, "205113")
-    pw_entry.insert(0, "990813")
 
 dp.mainloop()
