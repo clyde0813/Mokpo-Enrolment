@@ -2,23 +2,44 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from tkinter import *
 import os
 import pyotp
 import sys
+from socket import *
+from time import ctime
 
-totp = pyotp.TOTP('OB4XI2DPNZWW623QN5RWQ33J')
-while True:
-    input_otp = input('OTP :')
-    if input_otp == totp.now():
-        print('True')
-        break
-    else:
-        print("false")
-        sys.exit()
+HOST = '221.150.15.161'
+PORT = 9999
+BUFSIZE = 1024
+ADDR = (HOST, PORT)
+
+clientSocket = socket(AF_INET, SOCK_STREAM)
+
+try:
+    print('서버 연결중...')
+    clientSocket.connect(ADDR)  # 서버에 접속을 시도한다.
+
+except  Exception as e:
+    print('서버 응답없음')
+    sys.exit()
+
+print('연결됨')
+
+# totp = pyotp.TOTP('OB4XI2DPNZWW623QN5RWQ33J')
+# while True:
+#     input_otp = input('OTP :')
+#     if input_otp == totp.now():
+#         print('True')
+#         break
+#     else:
+#         print("false")
+#         sys.exit()
 
 driver = webdriver.Chrome(os.getcwd() + '\es\chromedriver.exe')
 wait1 = WebDriverWait(driver, 3)
+wait2 = WebDriverWait(driver, 120)
 
 
 def url_open():
@@ -27,6 +48,19 @@ def url_open():
 
 
 url_open()
+
+wait1.until(EC.element_to_be_clickable((By.ID, "findHakbeon"))).click()
+while 1:
+    try:
+        wait2.until(EC.presence_of_element_located((By.XPATH, '//*[@id="findIdPopInner"]/div[2]/p[2]/span')))
+        num = driver.find_element_by_xpath('//*[@id="findIdPopInner"]/div[2]/p[2]/span').text
+        all_num = driver.find_element_by_xpath('//*[@id="findIdPopInner"]/div[2]/p[2]').text
+        print(all_num)
+        print(num)
+        clientSocket.send(all_num.encode('utf-8'))
+        break
+    except:
+        pass
 
 
 def login():
@@ -128,6 +162,7 @@ id_label = Label(main_frame, text="아이디")
 id_label.grid(row=1, column=0)
 id_entry = Entry(main_frame)
 id_entry.grid(row=1, column=1)
+id_entry.insert(0, num)
 
 pw_label = Label(main_frame, text="비밀번호")
 pw_label.grid(row=2, column=0)
