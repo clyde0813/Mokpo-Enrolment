@@ -23,9 +23,9 @@ def url_open():
 
 
 def login():
-    driver.find_element_by_id("name").send_keys(id_entry.get())
-    driver.find_element_by_id("pwd").send_keys(pw_entry.get())
-    driver.find_element_by_class_name("btn_login").click()
+    driver.find_element(By.ID, "name").send_keys(id_entry.get())
+    driver.find_element(By.ID, "pwd").send_keys(pw_entry.get())
+    driver.find_element(By.CLASS_NAME, "btn_login").click()
 
 
 def lecture(a, b):
@@ -115,6 +115,7 @@ dp = Tk()
 main_frame = Frame(dp)
 dp.geometry('500x350')
 dp.title("목포대 수강신청 프로그램")
+dp.configure(background='white')
 main_frame.pack()
 
 id_label = Label(main_frame, text="아이디")
