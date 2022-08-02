@@ -29,10 +29,22 @@ def login():
 
 
 def lecture(a, b):
-    wait1.until(EC.presence_of_all_elements_located((By.XPATH,
-                                                     '//*[contains(text(), "' +
-                                                     a + '")]/following-sibling::td/a[@class="btn_ok"]')))[
-        int(b) - 1].click()
+    try:
+        btn = wait1.until(EC.presence_of_all_elements_located((By.XPATH,
+                                                        '//*[contains(text(), "' +
+                                                        a + '")]/following-sibling::td/a[@class="btn_ok"]')))
+        if len(btn) == 1:
+            btn[0].click()
+        else:
+            btn[int(b) - 1].click()
+    except:
+        btn = wait1.until(EC.presence_of_all_elements_located((By.XPATH,
+                                                        '//*[contains(text(), "' +
+                                                        a + '")]/following-sibling::td/a[@class="btn_ok"]')))
+        if len(btn) == 1:
+            btn[0].click()
+        else:
+            btn[int(b) - 1].click()
 
 
 def all_command():
