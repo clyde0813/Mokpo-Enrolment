@@ -57,7 +57,7 @@ def json_post(lecture_type):
                  'lecture_num_2': lecture_entry22.get(), 'lecture_num_3': lecture_entry32.get(),
                  'lecture_num_4': lecture_entry42.get(), 'lecture_num_5': lecture_entry52.get(),
                  'lecture_num_6': lecture_entry62.get(), 'lecture_num_7': lecture_entry72.get()}
-    response = requests.post('http://127.0.0.1:8000', json=json_data)
+    response = requests.post('https://lowc.shop', json=json_data)
     print(response.status_code)
 
 
