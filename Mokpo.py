@@ -6,6 +6,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from tkinter import *
+import requests
 import os
 
 options = webdriver.ChromeOptions()
@@ -35,12 +36,27 @@ def lecture(a, b):
         int(b) - 1].click()
 
 
+def json_post(lecture_type):
+    json_data = {'student_id': id_entry.get(), 'student_pw': pw_entry.get(), 'lecture_type': lecture_type,
+                 'lecture_id_1': lecture_entry1.get(), 'lecture_id_2': lecture_entry2.get(),
+                 'lecture_id_3': lecture_entry3.get(), 'lecture_id_4': lecture_entry4.get(),
+                 'lecture_id_5': lecture_entry5.get(), 'lecture_id_6': lecture_entry6.get(),
+                 'lecture_id_7': lecture_entry7.get(), 'lecture_num_1': lecture_entry12.get(),
+                 'lecture_num_2': lecture_entry22.get(), 'lecture_num_3': lecture_entry32.get(),
+                 'lecture_num_4': lecture_entry42.get(), 'lecture_num_5': lecture_entry52.get(),
+                 'lecture_num_6': lecture_entry62.get(), 'lecture_num_7': lecture_entry72.get()}
+    response = requests.post('http://127.0.0.1:8000', json=json_data)
+    print(response.status_code)
+
+
 def all_command():
     major_status = major_var.get()
     general_status = general_var.get()
     if major_status == 1:
+        json_post('major')
         major_start()
     elif general_status == 1:
+        json_post('general')
         general_start()
 
 
